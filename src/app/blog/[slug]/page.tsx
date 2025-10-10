@@ -6,7 +6,7 @@ import { formatDate } from '@/lib/utils';
 
 // 生成静态参数（静态生成）
 export async function generateStaticParams() {
-  const posts = getPosts();
+  const posts = await getPosts();
   return posts.map((post) => ({
     slug: post.slug,
   }));

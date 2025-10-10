@@ -4,8 +4,8 @@ import { getPosts } from '@/lib/data';
 import { formatDate } from '@/lib/utils';
 
 // 这是一个服务器组件，展示博客文章列表
-export default function BlogPage() {
-  const posts = getPosts();
+export default async function BlogPage() {
+  const posts = await getPosts();
 
   return (
     <div className="min-h-screen bg-gray-50">
