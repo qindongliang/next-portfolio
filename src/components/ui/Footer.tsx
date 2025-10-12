@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import SafeLink from './SafeLink';
 import { Github, Linkedin, Mail, MapPin } from 'lucide-react';
 
 const Footer = () => {
@@ -51,24 +51,24 @@ const Footer = () => {
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-gray-600 hover:text-gray-900 transition-colors">
+                <SafeLink href="/" className="text-gray-600 hover:text-gray-900 transition-colors">
                   首页
-                </Link>
+                </SafeLink>
               </li>
               <li>
-                <Link href="/blog" className="text-gray-600 hover:text-gray-900 transition-colors">
+                <SafeLink href="/blog" className="text-gray-600 hover:text-gray-900 transition-colors">
                   博客
-                </Link>
+                </SafeLink>
               </li>
               <li>
-                <Link href="/admin" className="text-gray-600 hover:text-gray-900 transition-colors">
+                <SafeLink href="/admin" className="text-gray-600 hover:text-gray-900 transition-colors">
                   管理后台
-                </Link>
+                </SafeLink>
               </li>
               <li>
-                <Link href="#contact" className="text-gray-600 hover:text-gray-900 transition-colors">
+                <SafeLink href="#contact" className="text-gray-600 hover:text-gray-900 transition-colors">
                   联系我
-                </Link>
+                </SafeLink>
               </li>
             </ul>
           </div>
@@ -89,6 +89,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={link.name}
+                    suppressHydrationWarning={true}
                   >
                     <IconComponent className="h-6 w-6" />
                   </a>

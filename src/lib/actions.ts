@@ -1,7 +1,6 @@
 'use server'; // 这是服务器端代码
 
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import { ContactFormData } from '@/types';
 
 // 模拟的数据库操作（在实际应用中，这里会连接真实的数据库）

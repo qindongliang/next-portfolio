@@ -1,6 +1,6 @@
 'use client'; // 这是客户端组件，因为有交互功能
 
-import Link from 'next/link';
+import SafeLink from './SafeLink';
 import { useState } from 'react';
 import { Menu, X, Moon, Sun } from 'lucide-react';
 
@@ -34,22 +34,22 @@ const Header = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="text-2xl font-bold text-gray-900">
+            <SafeLink href="/" className="text-2xl font-bold text-gray-900">
               Portfolio
-            </Link>
+            </SafeLink>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               {navigation.map((item) => (
-                <Link
+                <SafeLink
                   key={item.name}
                   href={item.href}
                   className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors"
                 >
                   {item.name}
-                </Link>
+                </SafeLink>
               ))}
             </div>
           </div>
@@ -91,14 +91,14 @@ const Header = () => {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
               {navigation.map((item) => (
-                <Link
+                <SafeLink
                   key={item.name}
                   href={item.href}
                   className="text-gray-700 hover:text-gray-900 block px-3 py-2 text-base font-medium transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
-                </Link>
+                </SafeLink>
               ))}
             </div>
           </div>

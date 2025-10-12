@@ -6,7 +6,6 @@ import {
   Database,
   Zap,
   Code,
-  RefreshCw,
   Upload,
   CheckCircle,
   AlertCircle,
@@ -36,7 +35,7 @@ export default function DemoPage() {
     try {
       const result = await uploadImage(formData);
       setUploadResult(result);
-    } catch (error) {
+    } catch {
       setUploadResult({
         success: false,
         message: '上传失败，请稍后重试。'
@@ -60,7 +59,7 @@ export default function DemoPage() {
         tags: ['Next.js', 'Server Actions', '演示']
       });
       setPostResult(result);
-    } catch (error) {
+    } catch {
       setPostResult({
         success: false,
         message: '创建失败，请稍后重试。'
