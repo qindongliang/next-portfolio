@@ -1,20 +1,33 @@
 'use client'; // 这是客户端组件，因为有交互功能
 
 import SafeLink from './SafeLink';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { Menu, X, Moon, Sun } from 'lucide-react';
+import Link from "next/link";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const pathname = usePathname();
+
+  // 处理锚点点击的函数
+  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, anchor: string) => {
+    if (pathname !== '/') {
+      // 如果不在首页，先导航到首页，然后再滚动到锚点
+      e.preventDefault();
+      window.location.href = '/' + anchor;
+    }
+    // 如果已经在首页，让默认的锚点行为处理
+  };
 
   const navigation = [
     { name: '首页', href: '/' },
     { name: '博客', href: '/blog' },
-    { name: '项目', href: '#projects' },
-    { name: '关于', href: '#about' },
+    { name: '项目', href: '#projects', isAnchor: true },
+    { name: '关于', href: '#about', isAnchor: true },
     { name: 'CSR', href: '/data' },
-    { name: '联系', href: '#contact' },
+    { name: '联系', href: '#contact', isAnchor: true },
     { name: '演示', href: '/demo' },
     { name: '仪表板', href: '/dashboard' },
     { name: '管理', href: '/admin' }
@@ -36,23 +49,38 @@ const Header = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <SafeLink href="/" className="text-2xl font-bold text-gray-900">
+            <Link href="/" className="text-2xl font-bold text-gray-900">
               Portfolio
-            </SafeLink>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
-              {navigation.map((item) => (
-                <SafeLink
-                  key={item.name}
-                  href={item.href}
-                  className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors"
-                >
-                  {item.name}
-                </SafeLink>
-              ))}
+              {navigation.map((item) => {
+                if (item.isAnchor) {
+                  return (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors"
+                      onClick={(e) => handleAnchorClick(e, item.href)}
+                      suppressHydrationWarning={true}
+                    >
+                      {item.name}
+                    </a>
+                  );
+                }
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors"
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
             </div>
           </div>
 
@@ -92,16 +120,34 @@ const Header = () => {
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
-              {navigation.map((item) => (
-                <SafeLink
-                  key={item.name}
-                  href={item.href}
-                  className="text-gray-700 hover:text-gray-900 block px-3 py-2 text-base font-medium transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </SafeLink>
-              ))}
+              {navigation.map((item) => {
+                if (item.isAnchor) {
+                  return (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className="text-gray-700 hover:text-gray-900 block px-3 py-2 text-base font-medium transition-colors"
+                      onClick={(e) => {
+                        handleAnchorClick(e, item.href);
+                        setIsMenuOpen(false);
+                      }}
+                      suppressHydrationWarning={true}
+                    >
+                      {item.name}
+                    </a>
+                  );
+                }
+                return (
+                  <SafeLink
+                    key={item.name}
+                    href={item.href}
+                    className="text-gray-700 hover:text-gray-900 block px-3 py-2 text-base font-medium transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </SafeLink>
+                );
+              })}
             </div>
           </div>
         )}
