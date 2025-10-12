@@ -5,6 +5,8 @@ import { personalInfo, skills, getFeaturedProjectsSync } from "@/lib/data";
 import { formatDate } from "@/lib/utils";
 import Button from "@/components/ui/Button";
 import ContactForm from "@/components/features/ContactForm";
+import JavaScriptButton from "@/components/ui/JavaScriptButton";
+import HydrationDemo from "@/components/ui/HydrationDemo";
 
 // 这是一个服务器组件，展示个人信息
 export default function Home() {
@@ -42,6 +44,57 @@ export default function Home() {
             <Button variant="outline" size="lg">
               联系我
             </Button>
+          </div>
+
+          {/* Hydration 演示 */}
+          <HydrationDemo />
+          {/* 四种导航方式演示 */}
+          <div className="mt-12 p-6 bg-white rounded-lg shadow-lg">
+            <h3 className="text-lg font-semibold text-gray-900 mb-6 text-center">
+              四种导航方式演示
+            </h3>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* 1. 普通超链接 */}
+              <a
+                  href="/data"
+                  className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
+              >
+                普通超链接跳转
+              </a>
+
+              {/* 2. Next.js Link 组件 */}
+              <Link href="/data">
+                <Button className="w-full">
+                  Link 组件跳转
+                </Button>
+              </Link>
+
+              {/* 3. JavaScript 按钮跳转 */}
+              <JavaScriptButton />
+
+              {/* 4. 表单提交方式 */}
+              <form action="/data">
+                <button
+                    type="submit"
+                    className="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 transition-colors"
+                >
+                  表单提交跳转
+                </button>
+              </form>
+            </div>
+
+            <div className="mt-4 text-sm text-gray-600">
+              <p className="text-center">
+                以上四种方式都能跳转到数据页面，但行为略有不同：
+              </p>
+              <ul className="mt-2 space-y-1 text-xs">
+                <li>• 普通超链接：刷新整个页面</li>
+                <li>• Link 组件：客户端路由导航（推荐）</li>
+                <li>• JavaScript 按钮：通过编程方式跳转</li>
+                <li>• 表单提交：通过 HTTP GET 请求跳转</li>
+              </ul>
+            </div>
           </div>
 
           <div className="flex justify-center space-x-6">
@@ -200,7 +253,11 @@ export default function Home() {
             </p>
           </div>
 
+
+
           <ContactForm />
+
+
         </div>
       </section>
 

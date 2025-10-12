@@ -13,6 +13,7 @@ const Header = () => {
     { name: '博客', href: '/blog' },
     { name: '项目', href: '#projects' },
     { name: '关于', href: '#about' },
+    { name: 'CSR', href: '/data' },
     { name: '联系', href: '#contact' },
     { name: '演示', href: '/demo' }
   ];
