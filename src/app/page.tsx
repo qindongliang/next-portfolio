@@ -2,7 +2,7 @@ import Link from "next/link";
 import SafeLink from "@/components/ui/SafeLink";
 import { Github, ExternalLink, Mail, ArrowRight } from "lucide-react";
 import { personalInfo, skills, getFeaturedProjectsSync } from "@/lib/data";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import ContactForm from "@/components/features/ContactForm";
 import JavaScriptButton from "@/components/ui/JavaScriptButton";
 import HydrationDemo from "@/components/ui/HydrationDemo";

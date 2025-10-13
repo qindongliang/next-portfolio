@@ -1,13 +1,20 @@
 'use client'; // 这是客户端组件，因为有交互功能
 
 import SafeLink from './SafeLink';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Moon, Sun } from 'lucide-react';
+import { Menu, Moon, Sun } from 'lucide-react';
 import Link from "next/link";
+import { Button } from '@/components/ui/Button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/Sheet';
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "@/components/ui/NavigationMenu"
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const pathname = usePathname();
 
@@ -29,13 +36,10 @@ const Header = () => {
     { name: 'CSR', href: '/data' },
     { name: '联系', href: '#contact', isAnchor: true },
     { name: '演示', href: '/demo' },
+    { name: 'shadcn/ui', href: '/shadcn-demo' },
     { name: '仪表板', href: '/dashboard' },
     { name: '管理', href: '/admin' }
   ];
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
@@ -44,113 +48,106 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-200">
+    <header className="fixed top-0 w-full bg-background/80 backdrop-blur-md z-50 border-b">
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="text-2xl font-bold text-gray-900">
+            <Link href="/" className="text-2xl font-bold">
               Portfolio
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
-              {navigation.map((item) => {
-                if (item.isAnchor) {
+            <NavigationMenu>
+              <NavigationMenuList className="space-x-8">
+                {navigation.map((item) => {
+                  if (item.isAnchor) {
+                    return (
+                      <NavigationMenuItem key={item.name}>
+                        <NavigationMenuLink
+                          href={item.href}
+                          className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+                          onClick={(e) => handleAnchorClick(e, item.href)}
+                          suppressHydrationWarning={true}
+                        >
+                          {item.name}
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>
+                    );
+                  }
                   return (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors"
-                      onClick={(e) => handleAnchorClick(e, item.href)}
-                      suppressHydrationWarning={true}
-                    >
-                      {item.name}
-                    </a>
+                    <NavigationMenuItem key={item.name}>
+                      <NavigationMenuLink asChild>
+                        <Link
+                          href={item.href}
+                          className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+                        >
+                          {item.name}
+                        </Link>
+                      </NavigationMenuLink>
+                    </NavigationMenuItem>
                   );
-                }
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                );
-              })}
-            </div>
+                })}
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
 
           {/* Theme Toggle & Mobile Menu Button */}
           <div className="flex items-center space-x-4">
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={toggleTheme}
-              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
               aria-label="切换主题"
             >
               {isDarkMode ? (
-                <Sun className="h-5 w-5 text-gray-700" />
+                <Sun className="h-5 w-5" />
               ) : (
-                <Moon className="h-5 w-5 text-gray-700" />
+                <Moon className="h-5 w-5" />
               )}
-            </button>
+            </Button>
 
             {/* Mobile menu button */}
-            <div className="md:hidden">
-              <button
-                onClick={toggleMenu}
-                className="p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-500"
-                aria-expanded="false"
-              >
-                <span className="sr-only">打开主菜单</span>
-                {isMenuOpen ? (
-                  <X className="block h-6 w-6" aria-hidden="true" />
-                ) : (
-                  <Menu className="block h-6 w-6" aria-hidden="true" />
-                )}
-              </button>
-            </div>
+            <Sheet>
+              <SheetTrigger asChild className="md:hidden">
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">打开主菜单</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                <nav className="flex flex-col gap-4">
+                  {navigation.map((item) => {
+                    if (item.isAnchor) {
+                      return (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          className="text-lg font-medium transition-colors hover:text-accent-foreground"
+                          onClick={(e) => handleAnchorClick(e, item.href)}
+                          suppressHydrationWarning={true}
+                        >
+                          {item.name}
+                        </a>
+                      );
+                    }
+                    return (
+                      <SafeLink
+                        key={item.name}
+                        href={item.href}
+                        className="text-lg font-medium transition-colors hover:text-accent-foreground"
+                      >
+                        {item.name}
+                      </SafeLink>
+                    );
+                  })}
+                </nav>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
-              {navigation.map((item) => {
-                if (item.isAnchor) {
-                  return (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="text-gray-700 hover:text-gray-900 block px-3 py-2 text-base font-medium transition-colors"
-                      onClick={(e) => {
-                        handleAnchorClick(e, item.href);
-                        setIsMenuOpen(false);
-                      }}
-                      suppressHydrationWarning={true}
-                    >
-                      {item.name}
-                    </a>
-                  );
-                }
-                return (
-                  <SafeLink
-                    key={item.name}
-                    href={item.href}
-                    className="text-gray-700 hover:text-gray-900 block px-3 py-2 text-base font-medium transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.name}
-                  </SafeLink>
-                );
-              })}
-            </div>
-          </div>
-        )}
       </nav>
     </header>
   );

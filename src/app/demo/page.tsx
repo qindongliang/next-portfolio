@@ -12,7 +12,7 @@ import {
   Info
 } from 'lucide-react';
 import { uploadImage, createPost } from '@/lib/actions';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 
 export default function DemoPage() {
   const [isServerActionLoading, setIsServerActionLoading] = useState(false);
