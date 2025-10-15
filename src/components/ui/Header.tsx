@@ -36,6 +36,7 @@ const Header = () => {
     { name: 'CSR', href: '/data' },
     { name: '联系', href: '#contact', isAnchor: true },
     { name: '演示', href: '/demo' },
+    { name: 'X6', href: '/x6' },
     { name: 'shadcn/ui', href: '/shadcn-demo' },
     { name: '仪表板', href: '/dashboard' },
     { name: '管理', href: '/admin' }
